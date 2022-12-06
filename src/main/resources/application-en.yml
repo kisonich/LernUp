@@ -1,0 +1,5 @@
+greetings1: "Hi, I made a number, try to guess it! "
+greetings2: "Make an attempt, you can enter numbers from 0 to 1000!"
+wrongAnswer1: "My number is bigger than yours"
+wrongAnswer2: "My number is less than yours"
+rightAnswer: "You guessed it, I guessed the number "
