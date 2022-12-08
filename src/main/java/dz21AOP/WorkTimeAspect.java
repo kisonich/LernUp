@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkTimeAspect {
 
-
     @Around("@annotation(WorkTime)")
     public Object logWorkTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
