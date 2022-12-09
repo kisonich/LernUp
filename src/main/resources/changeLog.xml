@@ -11,15 +11,68 @@
             <column type="int" name="id">
                 <constraints primaryKey="true"></constraints>
             </column>
-            
             <column type="varchar" name="fio">
-                
             </column>
             
         </createTable>
         
-        <createTable tableName="">
-            <column></column>
+        <createTable tableName="book">
+            <column type="int" name="bookid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="varchar" name="namebook"></column>
+            <column type="date" name="year"></column>
+            <column type="int" name="pages"></column>
+            <column type="int" name="cost"></column>
+        </createTable>
+
+        <createTable tableName="customer">
+            <column type="int" name="customerid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="varchar" name="fio"></column>
+            <column type="date" name="age"></column>
+        </createTable>
+
+        <createTable tableName="orderdetails">
+            <column type="int" name="orderdetailsid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="int" name="orderid">
+                <constraints foreignKeyName="orderid" references="orders(orderid)"></constraints>
+            </column>
+            <column type="int" name="bookid">
+                <constraints foreignKeyName="bookid" references="book(bookid)"></constraints>
+            </column>
+            <column type="int" name="count"></column>
+            <column type="int" name="totalcost"></column>
+        </createTable>
+
+        <createTable tableName="orders">
+            <column type="int" name="orderid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="varchar" name="fio"></column>
+            <column type="int" name="purchaseamount"></column>
+        </createTable>
+
+        <createTable tableName="warehouse">
+            <column type="int" name="warehouseid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="varchar" name="address"></column>
+        </createTable>
+
+        <createTable tableName="warehouse_book">
+            <column type="int" name="warehousebookid">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column type="int" name="warehouseid">
+                <constraints foreignKeyName="warehouseid" references="warehouse(warehouseid)"></constraints>
+            </column>
+            <column type="int" name="bookid">
+                <constraints foreignKeyName="bookid" references="book(bookid)"></constraints>
+            </column>
         </createTable>
     </changeSet>
 
