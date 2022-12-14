@@ -6,3 +6,9 @@ wrongAnswer1: "Мое число побольше твоего"
 wrongAnswer2: "Мое число меньше твоего"
 rightAnswer: "Ты угадал, я загадал число "
 
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+
+  jpa:
+    show-sql: true

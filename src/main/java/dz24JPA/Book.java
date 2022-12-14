@@ -1,4 +1,4 @@
-package dz23Entity;
+package dz24JPA;
 
 import lombok.Getter;
 import lombok.Setter;
