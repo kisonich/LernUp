@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 
 import lombok.Getter;
@@ -19,6 +19,8 @@ public class WarehouseBook {
     @ManyToOne
     @JoinColumn(name = "bookid")
     private Book book;
+
+    private Integer amount;
 
     @Override
     public String toString() {

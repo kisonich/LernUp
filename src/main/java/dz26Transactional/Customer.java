@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,21 +6,24 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "Author")
+@Table(name = "Customer")
 @Getter
 @Setter
-public class Author {
+public class Customer {
     @Id
-    private Integer id;
+    private Integer customerid;
     private String fio;
+    private LocalDate age;
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
+        return "Customer{" +
+                "customerId=" + customerid +
                 ", fio='" + fio + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

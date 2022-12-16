@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 import lombok.Getter;
 import lombok.Setter;

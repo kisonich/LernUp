@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +11,16 @@ import java.util.List;
 @Getter
 @Setter
 public class Orders {
+
     @Id
+    @GeneratedValue(generator = "ordersSeq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "ordersSeq", sequenceName = "ordersSequence", initialValue = 1, allocationSize = 20)
     private Integer orderid;
     private String fio;
     private Integer purchaseamount;
     @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER)
     private List<OrderDetails> orderDetailsList;
+
 
     @Override
     public String toString() {

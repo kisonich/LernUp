@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Setter
 public class OrderDetails {
     @Id
+    @GeneratedValue(generator = "ordersDSeq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "ordersDSeq", sequenceName = "ordersDSequence", initialValue = 1, allocationSize = 20)
     private Integer orderdetailsid;
 //    private Integer bookid;
     private Integer count;

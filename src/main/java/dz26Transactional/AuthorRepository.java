@@ -1,4 +1,4 @@
-package dz24JPA;
+package dz26Transactional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
