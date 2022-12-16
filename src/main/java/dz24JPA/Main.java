@@ -32,7 +32,7 @@ public class Main {
 //        authorRepository.save(author);
 //
 //        Optional<Author> authorRepositoryById = authorRepository.findById(1);
-//        authorRepositoryById.ifPresent( b -> System.out.println(b.toString()));
+//        authorRepositoryById.ifPresent( a -> System.out.println(a.toString()));
 //
 //        CustomerRepository customerRepository = context.getBean(CustomerRepository.class);
 //        Customer customer = new Customer();
@@ -43,7 +43,7 @@ public class Main {
 //        customerRepository.save(customer);
 //
 //        Optional<Customer> customerRepositoryById = customerRepository.findById(1);
-//        customerRepositoryById.ifPresent( b -> System.out.println(b.toString()));
+//        customerRepositoryById.ifPresent( c -> System.out.println(c.toString()));
 
 
         OrderRepository orderRepository = context.getBean(OrderRepository.class);
@@ -55,7 +55,7 @@ public class Main {
 //        orderRepository.save(orderr);
 
         Optional<Orders> orderRepositoryById = orderRepository.findById(1);
-        orderRepositoryById.ifPresent( b -> System.out.println(b.toString()));
+        orderRepositoryById.ifPresent( o -> System.out.println(o.toString()));
 
         WarehouseRepository warehouseRepository = context.getBean(WarehouseRepository.class);
         Warehouse warehouse = new Warehouse();
