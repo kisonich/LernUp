@@ -1,0 +1,174 @@
+Для добавления авторизации по логину и паролю с использованием Spring Security в проекте необходимо выполнить следующие шаги:
+
+1. Добавить зависимости Spring Security в pom.xml:
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+2. Создать класс конфигураций Spring Security:
+
+```
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/api/v1/users/**").authenticated()
+                .anyRequest().permitAll()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+```
+
+3. Создать класс, который будет предоставлять информацию о пользователях:
+
+```
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Userr user = userRepository.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new User(user.getLogin(), user.getPassword(), Collections.emptyList());
+    }
+}
+```
+
+4. Изменить класс Userr, чтобы он хранил хэш пароля вместо самого пароля:
+
+```
+@Data
+@Entity
+@Table(name = "Userr")
+@Getter
+@Setter
+public class Userr {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String login;
+
+    private String password;
+
+    private String fio;
+
+    private String email;
+
+    @Column(name = "role")
+    private String role = "ROLE_USER";
+
+    public Userr() {
+    }
+
+    public Userr(String login, String password, String fio, String email) {
+        this.login = login;
+        this.password = password;
+        this.fio = fio;
+        this.email = email;
+    }
+}
+```
+
+5. Изменить UserService, чтобы он создавал новых пользователей с хэшированным паролем:
+
+```
+@Service
+public class UserService {
+    ...
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public Userr save(Userr user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
+    }
+
+    ...
+}
+```
+
+6. Создать контроллер для логина и логаута:
+
+```
+@Controller
+public class LoginController {
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        SecurityContextHolder.clearContext();
+        return "redirect:/";
+    }
+}
+```
+
+7. Создать страницу для логина (login.html) в директории resources/templates:
+
+```
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" autofocus required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Log In</button>
+    </form>
+</body>
+</html>
+```
+
+Теперь при попытке запросить любой ресурс из /api/v1/users без авторизации пользователя, будет выполняться перенаправление на страницу логина. Также в базе данных пароль будет храниться в зашифрованном виде.
+
+Для сброса диалога введите команду /context
+
